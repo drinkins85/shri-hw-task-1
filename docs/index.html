@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Яндекс Дзен</title>
+</head>
+<body class="page">
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <a href="#" class="logo__link">
+                    <img src="img/logo.svg" class="logo__img">
+                </a>
+            </div>
+        </header>
+        <div class="news"></div>
+    </div>
+
+    <script src="data.js"></script>
+
+    <template id="news-m">
+        <a class="news-item news-item_size_m" href="#">
+            <div class="news-item-title">
+                <div class="news-item-title__link news-item-title__link_size_xl news-item-title__link_color_green">
+                </div>
+            </div>
+            <div class="news-item__image-container news-item__image-container_ratio_16x9">
+                <img src="" class="news-item__image">
+            </div>
+            <div class="news-description news-description_type_m">
+                <div class="news-description__text">
+                </div>
+                <div class="share-block share-block_half">
+                    <button class="share-block__button share-block__button_type_actions"></button>
+                    <button class="share-block__button share-block__button_type_like"></button>
+                </div>
+            </div>
+        </a>
+    </template>
+
+    <template id="news-l">
+        <a class="news-item  news-item_size_l" href="#" >
+            <div class="news-item__image-container news-item__image-container_ratio_16x9">
+                <img src="" class="news-item__image">
+            </div>
+            <div>
+                <div class="news-item-title">
+                    <div class="news-item-title__link news-item-title__link_size_xl"></div>
+                </div>
+                <div class="news-description news-description_type_l">
+                    <div class="news-description__text"></div>
+                    <div class="share-block share-block_full">
+                        <button class="share-block__button share-block__button_type_actions"></button>
+                        <button class="share-block__button share-block__button_type_like"></button>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </template>
+
+    <template id="news-s">
+        <a class="news-item  news-item_size_s" href="#">
+            <div class="news-item-title">
+                <div class="news-item-title__link news-item-title__link_size_l"></div>
+            </div>
+            <div class="news-item__image-container news-item__image-container_ratio_3x4">
+                <img src="" class="news-item__image">
+            </div>
+            <div class="share-block share-block_third">
+                <button class="share-block__button share-block__button_type_like"></button>
+            </div>
+        </a>
+    </template>
+
+    <template id="news-s-txt">
+        <a class="news-item  news-item_size_s news-item_type_text" href="#">
+            <div class="news-description news-description_type_third-text">
+                <div class="news-item-title__link news-item-title__link_size_l">
+                </div>
+                <div class="news-description__text news-description_type_s"></div>
+                <div class="news-item__footer">
+                    <span class="channel-name"></span>
+                    <div class="share-block share-block_third-text">
+                        <button class="share-block__button share-block__button_type_actions"></button>
+                        <button class="share-block__button share-block__button_type_like"></button>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </template>
+
+
+    <script>
+        ;(function () {
+            var newsContainer = document.querySelector('.news');
+            data.forEach(function (newsItem) {
+                var template;
+                if (newsItem.size === 'l') {
+                    template = document.getElementById('news-l');
+                }
+                if (newsItem.size === 'm') {
+                    template = document.getElementById('news-m');
+                }
+                if (newsItem.size === 's') {
+                    if (newsItem.image){
+                        template = document.getElementById('news-s');
+                    } else {
+                        template = document.getElementById('news-s-txt');
+                    }
+                }
+                var title = template.content.querySelector('.news-item-title__link');
+                title.innerHTML = newsItem.title;
+
+                if (newsItem.description){
+                    var description = template.content.querySelector('.news-description__text');
+                    description.innerHTML = newsItem.description;
+                }
+                if (newsItem.image){
+                    var picture = template.content.querySelector('.news-item__image');
+                    var imgUrl = newsItem.image;
+                    picture.setAttribute('src', imgUrl);
+                    picture.setAttribute('srcset', imgUrl + ' 172w, ' +addImgSet(imgUrl, "@2x") + ' 344w, '  + addImgSet(imgUrl, "@3x") + ' 516w');
+                }
+                if (newsItem.channelName){
+                    var author = template.content.querySelector('.channel-name');
+                    author.innerHTML = newsItem.channelName;
+                }
+                newsContainer.appendChild(template.content.cloneNode(true));
+            });
+
+            function addImgSet(url, set) {
+                return url.replace(".", set + ".")
+            }
+        }());
+
+
+    </script>
+
+
+</body>
+</html>
