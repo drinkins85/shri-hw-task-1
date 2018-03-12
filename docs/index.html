@@ -25,8 +25,7 @@
     <template id="news-m">
         <a class="news-item news-item_size_m" href="#">
             <div class="news-item-title">
-                <div class="news-item-title__link news-item-title__link_size_xl news-item-title__link_color_green">
-                </div>
+                <div class="news-item-title__link news-item-title__link_size_xl"></div>
             </div>
             <div class="news-item__image-container">
                 <img src="" class="news-item__image news-item__image_size_m">
@@ -113,6 +112,9 @@
                     }
                 }
                 var title = template.content.querySelector('.news-item-title__link');
+                if (newsItem.titleColor){
+                    title.style.color = newsItem.titleColor;
+                }
                 title.innerHTML = newsItem.title;
 
                 if (newsItem.description){
